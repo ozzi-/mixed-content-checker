@@ -45,8 +45,9 @@ public class MCC {
 		        	boolean linkUsesHTTP 		= Helper.linkUsesHTTP(linkAbs);
 		        	boolean circularLink 		= linkAbs.equals(url);
 					if(linkUsesHTTP && !linkActIsSpecial && !linkAbs.equals("") && !circularLink){
+						String linkAbsMatch = linkAbs.toLowerCase().replace("http://","").replace("https://", "");
 						for (String match : matches) {
-							if(linkAbs.contains(match)){
+							if(linkAbsMatch.startsWith(match)){
 								if(linkAbs.toLowerCase().startsWith("http://")){
 									if(reportHTTPLinkalways || !httpLinks.contains(linkAbs)){
 										httpLinks.add(linkAbs);
