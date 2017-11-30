@@ -34,6 +34,7 @@ public class Helper {
 	public static final String ANSI_RED = "\u001B[31m";
 	public static final String ANSI_YELLOW = "\u001B[33m";
 	public static boolean colorActive=false;
+	public static boolean printBroken;
 	
 	public static void printBroken(String msg){
 		if(colorActive){
@@ -89,6 +90,10 @@ public class Helper {
         printCrawlsOption.setRequired(false);
         options.addOption(printCrawlsOption);
         
+        Option printBrokenLinksOption = new Option("b", "broken", false, "If flag is set, broken links will be reported. Default is false");
+        printBrokenLinksOption.setRequired(false);
+        options.addOption(printBrokenLinksOption);
+        
         CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
         CommandLine cmd = null;
@@ -124,7 +129,9 @@ public class Helper {
 			in.close();
 			return response.toString();
 		} catch (FileNotFoundException | UnknownHostException e) {
-			printBroken("Found broken link on "+url+" -- "+elementSrcAbs);
+			if(Helper.printBroken){
+				printBroken("Found broken link on "+url+" -- "+elementSrcAbs);				
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -190,6 +197,8 @@ public class Helper {
 		}
         
         boolean printCrawlList = cmd.hasOption("printcrawls");
+        boolean printBroken = cmd.hasOption("broken");
+        Helper.printBroken = printBroken;
         
 		System.out.println("Initial crawl list: "+(tovisit));
 		System.out.println("Must match         :"+Arrays.toString(matchesArr));
@@ -197,7 +206,7 @@ public class Helper {
 		System.out.println("---");
 		System.out.println();
         
-		MCC.crawlForLinks(visited, tovisit, matches ,reportHTTPLinkAlways,quiet,printCrawlList);
+		MCC.crawlForLinks(visited, tovisit, matches ,reportHTTPLinkAlways,quiet,printCrawlList,printBroken);
 	}
 
 	

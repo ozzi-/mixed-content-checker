@@ -22,7 +22,7 @@ public class MCC {
         Helper.startCrawling(cmd);
 	}
 
-	public static void crawlForLinks(HashSet<String> visited, Stack<String> tovisit, HashSet<String> matches, boolean reportHTTPLinkalways,boolean quiet,boolean printCrawlList) {
+	public static void crawlForLinks(HashSet<String> visited, Stack<String> tovisit, HashSet<String> matches, boolean reportHTTPLinkalways,boolean quiet, boolean printCrawlList, boolean printBroken) {
 		String format = "%-90s %5s %15s\n";
 
 		HashSet<String> httpLinks = new HashSet<String>();
@@ -79,7 +79,9 @@ public class MCC {
 			} catch (UnsupportedMimeTypeException e) {
 				// OK, is a file like pdf or docx etc.
 			} catch (HttpStatusException | UnknownHostException  e) {
-				Helper.printBroken("Broken link! "+e.getMessage()+" -- "+url);
+				if(printBroken){
+					Helper.printBroken("Broken link! "+e.getMessage()+" -- "+url);					
+				}
 			} catch (SSLHandshakeException e){
 				Helper.printBroken("SSL broken!  "+e.getMessage()+" -- "+url);
 			} catch (IllegalArgumentException e){

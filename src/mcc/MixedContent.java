@@ -76,7 +76,7 @@ public class MixedContent {
 				}
 			}
 			if(elementSrc.toLowerCase().startsWith("http://")){
-				Helper.printFinding("Insecure <"+tag+" "+attribute+"=X >  on "+url+" - "+elementSrc);
+				Helper.printFinding("Found insecure <"+tag+" "+attribute+"=X >  on "+url+" - "+elementSrc);
 			}	
 		}
 	}
