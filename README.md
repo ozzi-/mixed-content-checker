@@ -17,10 +17,18 @@ MCC is currently supporting all causes of mixed content warnings:
 * http links
 * broken links
 
+## Matching
+MCC will crawl all found links on the page, if outgoing (links to another domain) links are defined, it will follow those. 
+The -m (matches) parameter helps you to restrict / control the crawling behavior.
+You can provide none, one or multiple (comma seperated) domains like such:
+
+` -m domain.com,sub.domain.com,otherdomain.org `
+
+All outgoing links **starting** with "domain.com", "sub.domain.com" and "otherdomain.org" will now be visited. "moredomain.com" won't - neither will "sub.otherdomain.org" or "www.domain.com". **Note:** https:// and http:// are stripped for the matching. 
+
 
 ## Screenshots
 Usage:
-
 ![usage](https://i.imgur.com/Cw2TELj.png)
 
 Example:
