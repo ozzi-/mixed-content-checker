@@ -9,9 +9,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class MixedContent {
-	
-	// TODO match things like @import url("base-theme.css");
-	private static Pattern cssDataPattern 	= Pattern.compile("url(\\s)*\\((\\s)*(\"|\')(\\s)?http:");
+	// (@import) url("http..
+	private static Pattern cssURLPattern 	= Pattern.compile("url(\\s)*\\((\\s)*(\"|\')(\\s)?http:");
+	 // @import ("http...    --> omitting URL is valid to
+	private static Pattern cssURL2Pattern 	= Pattern.compile("@import(\\s)*(\"|')(\\s)*http:");
+	// (xhr.)open("POST","http.. 
 	private static Pattern jsXHRPattern 	= Pattern.compile("open(\\s)?\\((\\s)?(\"|')[a-zA-Z]*(\"|')(\\s)?,(\\s)?(\"|')(\\s)?(http|HTTP):\\/\\/");
 	
 	public static void checkForMixedContent(String url, Document doc, String tag, String attribute, HashSet<String> visited) {	
@@ -27,10 +29,14 @@ public class MixedContent {
 	
 	private static void checkForMixedContentCSS(String url, String elementSrcAbs) {
 		String css = Helper.getUrlAsString(url,elementSrcAbs);				
-		Matcher m = cssDataPattern.matcher(css);
+		Matcher m = cssURLPattern.matcher(css);
 		while( m.find() ) {
 			Helper.printFinding("Found insecure resource linked in CSS "+url+" -- "+m.group());
-		}	
+		}
+		Matcher m2 = cssURL2Pattern.matcher(css);
+		while( m2.find() ) {
+			Helper.printFinding("Found insecure resource linked in CSS "+url+" -- "+m.group());
+		}
 	}
 	
 	private static void checkForMixedContentXHR(String url, String elementSrcAbs) {
@@ -45,7 +51,7 @@ public class MixedContent {
 		Elements allElements = doc.select(tag);
 		for (Element element : allElements) {
 			String css = element.toString();
-			Matcher m = cssDataPattern .matcher(css);
+			Matcher m = cssURLPattern .matcher(css);
 			while( m.find() ) {
 				Helper.printFinding("Found insecure resource linked in inline CSS in "+url+" -- "+m.group());
 			}		
