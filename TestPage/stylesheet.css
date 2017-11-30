@@ -1,0 +1,4 @@
+		body { background: url ( " http://www.example.org/background.gif" )  }
+		div { 
+			background: url("http://www.example.org/background2.tiff") 
+		}

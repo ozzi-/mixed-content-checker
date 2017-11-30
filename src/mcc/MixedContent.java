@@ -9,8 +9,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class MixedContent {
-	private static Pattern cssDataPattern 	= Pattern.compile("url(\\s)*\\((\\s)*(\"|\')http:");
-	private static Pattern jsXHRPattern 	= Pattern.compile("open(\\s)?\\(*.(\\s)?(\"|\')[a-zA-Z]*\"(\\s)?,(\\s)?(\"|\')(\\s)?http:");
+	
+	// TODO match things like @import url("base-theme.css");
+	private static Pattern cssDataPattern 	= Pattern.compile("url(\\s)*\\((\\s)*(\"|\')(\\s)?http:");
+	private static Pattern jsXHRPattern 	= Pattern.compile("open(\\s)?\\((\\s)?(\"|')[a-zA-Z]*(\"|')(\\s)?,(\\s)?(\"|')(\\s)?(http|HTTP):\\/\\/");
 	
 	public static void checkForMixedContent(String url, Document doc, String tag, String attribute, HashSet<String> visited) {	
 		if(tag.equals("script")){
@@ -19,7 +21,7 @@ public class MixedContent {
 		if(tag.equals("style")){
 			checkForInlineStyleMixedContent(url, doc, tag);
 		}else{
-			checkForLinkedResourceMixedContent(url, doc, tag, attribute, visited);		
+			checkForLinkedResourceMixedContent(url, doc, tag, attribute, visited);
 		}
 	}
 	

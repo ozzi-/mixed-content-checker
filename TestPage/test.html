@@ -1,0 +1,30 @@
+<html>
+	<h1>Mixed Content Checker - Test Page</h1>
+	<img src="http://example.org/image.png">
+	<img src="https://secureexample.org/image.png">
+	<script src="http://example.org/script.js"></script>
+	<script src="https://secureexample.org/script.js"></script>
+	<script src="script.js"></script>
+	<script>
+		var xmlHttp = new XMLHttpRequest();
+	    xmlHttp.open('GET', 'http://example.org/xhrg', true);
+	    xmlHttp.send(null);
+	    
+	    var xmlHttp2 = new XMLHttpRequest();
+	    xmlHttp2.open("POST", "http://example.org/xhrp", true);
+	    xmlHttp2.send(null);
+	</script>
+	<style>
+		body { background: url ( " http://www.example.org/background.gif" )  }
+		div { 
+			background: url("http://www.example.org/background2.tiff") 
+		}
+	</style>
+	<iframe src="http://example.org/"></iframe>
+	<link href="http://example.org/blob">
+	<link rel="stylesheet" href="stylesheet.css">
+	<object data="http://example.org/blob">
+	<a href="test.html">Circular</a>
+	<a href="http://example.org">HTTP Link outgoing</a>
+	<a href="test2.html">Second page</a>
+</html>
