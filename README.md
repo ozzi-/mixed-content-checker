@@ -1,4 +1,5 @@
-# Mixed Content Checker
+![logo](https://i.imgur.com/sYVZyXi.png)
+
 Do you have a website with [mixed content](https://developers.google.com/web/fundamentals/security/prevent-mixed-content/what-is-mixed-content) warnings? Don't want to manually search dozens of pages for the insecure content?
 **MCC will crawl websites for you and tell you what you need to fix!**
 
